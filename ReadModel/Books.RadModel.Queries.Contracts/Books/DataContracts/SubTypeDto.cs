@@ -9,6 +9,8 @@ namespace Books.ReadModel.Queries.Contracts.Books.DataContracts
         public Guid Id { get; set; }
         public string Name { get; set; }
         public Guid? TypeId { get; set; }
+        public TypeDto Type { get; set; }
+        
 
     }
 }

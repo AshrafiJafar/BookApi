@@ -9,6 +9,5 @@ namespace Books.ReadModel.Queries.Contracts.Books.DataContracts
         public Guid Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<SubTypeDto> SubTypes { get; set; }
     }
 }

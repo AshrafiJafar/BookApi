@@ -42,41 +42,41 @@ namespace Books.ReadModel.Queries.Facade.Books
         }
 
         [HttpGet]
-        public IList<BookDto> GetBooks(Guid? typeId, Guid? subTypeId, Guid? authorId, string name = "")
+        public IList<BookListDto> GetBooks(Guid? typeId, Guid? subTypeId, Guid? authorId, string name = "")
         {
-            var query = db.Books.Include(x => x.SubType).Where(x => x.Name.Contains(name));
-            if (typeId.HasValue)
+            var query = db.Books
+                .Include(x => x.SubType).ThenInclude(x => x.Type)
+                .Include(x => x.Author)
+                .Where(x =>
+                    (typeId == null || x.SubType.TypeId == typeId) &&
+                    (subTypeId == null || x.SubTypeId == subTypeId) &&
+                    (authorId == null || x.AuthorId == authorId) &&
+                    (name == null || x.Name.Contains(name))).ToList();
+            return query.Select(x => new BookListDto
             {
-                query = query.Where(x => x.SubType.TypeId == typeId.Value);
-            }
-            if (subTypeId.HasValue)
-            {
-                query = query.Where(x => x.SubTypeId == subTypeId.Value);
-            }
-            if (authorId.HasValue)
-            {
-                query = query.Where(x => x.AuthorId == authorId.Value);
-            }
-            return mapper.Map<BookDto, Book>(query.ToList());
+                Name = x.Name,
+                pageCount = x.PageCount,
+                AuthorName = x.Author.Name,
+                TypeName = x.SubType.Type.Name,
+                SubTypeName = x.SubType.Name
+            }).ToList();
+
         }
 
         [HttpGet]
-        public IList<BookDto> GetBooksWithStoreProcedure(Guid? typeId, Guid? subTypeId, Guid? authorId, string name = "")
+        public IList<BookListDto> GetBooksWithStoreProcedure(Guid? typeId, Guid? subTypeId, Guid? authorId, string name = "")
         {
-            var query = db.Books.Include(x => x.SubType).Where(x => x.Name.Contains(name));
-            if (typeId.HasValue)
-            {
-                query = query.Where(x => x.SubType.TypeId == typeId.Value);
-            }
-            if (subTypeId.HasValue)
-            {
-                query = query.Where(x => x.SubTypeId == subTypeId.Value);
-            }
-            if (authorId.HasValue)
-            {
-                query = query.Where(x => x.AuthorId == authorId.Value);
-            }
-            return mapper.Map<BookDto, Book>(query.ToList());
+            var typeIdString = typeId.HasValue ? "'"+typeId.ToString()+"'" : "NULL";
+            var subTypeIdString = subTypeId.HasValue ? "'"+ subTypeId.ToString()+"'" : "NULL";
+            var authorIdString = authorId.HasValue ? "'"+ authorId.ToString()+"'" : "NULL";
+            var nameString = string.IsNullOrEmpty(name) ? "NULL" : "'" + name + "'";
+            var data = db.BookInformations
+                .FromSqlRaw($"EXECUTE [dbo].[BookSelectProcedure] " +
+                $"{typeIdString}," +
+                $"{subTypeIdString}," +
+                $"{authorIdString}," +
+                $"{nameString}").ToList();
+            return mapper.Map<BookListDto, BookInformation>(data);
         }
     }
 }

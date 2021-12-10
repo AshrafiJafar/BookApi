@@ -1,4 +1,4 @@
-﻿using Books.BookContext.ApplicationService.Contract.Book;
+﻿using Books.BookContext.ApplicationService.Contract.Books;
 
 namespace Books.BookContext.Facade.Contract
 {

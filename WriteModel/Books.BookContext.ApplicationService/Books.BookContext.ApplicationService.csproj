@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\Framework.Core\Framework.Core.csproj" />
     <ProjectReference Include="..\Books.BookContext.ApplicationService.Contract\Books.BookContext.ApplicationService.Contract.csproj" />
+    <ProjectReference Include="..\Books.BookContext.Domain\Books.BookContext.Domain.csproj" />
   </ItemGroup>
 
 </Project>

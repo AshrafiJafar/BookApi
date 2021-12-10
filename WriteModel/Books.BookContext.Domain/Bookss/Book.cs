@@ -10,6 +10,15 @@ namespace Books.BookContext.Domain.Bookss
     public class Book : EntityBase<Book>, IAggregateRoot<Book>
     {
 
+        public Book(){ }
+        public Book(string name, int pageCount, Guid subTypeId, Guid authorId)
+        {
+            SetId();
+            Name = name;
+            PageCount = pageCount;
+            SubTypeId =  subTypeId;
+            AuthorId = authorId;
+        }
         public string Name { get; set; }
         public int PageCount { get; set; }
         public Guid SubTypeId { get; set; }

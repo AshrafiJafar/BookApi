@@ -1,4 +1,4 @@
-﻿using Books.BookContext.ApplicationService.Contract.Book;
+﻿using Books.BookContext.ApplicationService.Contract.Books;
 using Books.BookContext.Facade.Contract;
 using Framework.Core.Application;
 using Framework.Facade;
@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Books.BookContext.Facade
 {
-    [Route("api/Book/[action]")]
+    [Route("library/api/Book/[action]")]
     [ApiController]
     public class BookCommandFacade : FacadeCommandBase, IBookCommandFacade
     {

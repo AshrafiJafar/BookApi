@@ -66,9 +66,11 @@ namespace Books.Api
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Books.Api v1"));
+                
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Books.Api v1")); 
 
             app.UseRouting();
 
@@ -93,13 +95,6 @@ namespace Books.Api
             var registrars = assemblyHelper.GetInstanceByInterface(typeof(IRegistrar));
             foreach (IRegistrar registrar in registrars)
                 registrar.Register(services, connectionString);
-
-            //services.AddDbContext<HRContext>(op =>
-            //{
-            //    op.UseSqlServer(connectionString, z => z.CommandTimeout((int)TimeSpan.FromMinutes(2).TotalSeconds));
-
-            //    //op.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            //}, ServiceLifetime.Transient);
 
         }
 

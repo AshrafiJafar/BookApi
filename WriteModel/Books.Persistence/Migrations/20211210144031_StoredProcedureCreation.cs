@@ -7,7 +7,7 @@ namespace Books.Persistence.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(@"[dbo].[BookSelectProcedure]
+            migrationBuilder.Sql(@"CREATE PROCEDURE [dbo].[BookSelectProcedure]
                                     @typeId uniqueidentifier = null,
 			                       	@subTypeId uniqueidentifier = null,
 			                       	@authorId uniqueidentifier = null,

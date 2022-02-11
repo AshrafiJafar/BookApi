@@ -4,7 +4,7 @@ using System;
 
 namespace Framework.Facade
 {
-    public class FacadeCommandBase : Controller
+    public abstract class FacadeCommandBase : Controller
     {
         public FacadeCommandBase(ICommandBus commandBus)
         {
